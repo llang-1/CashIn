@@ -14,18 +14,27 @@ datasource db {
 }
 
 model Siswa {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   nis String 
   password String
   status_bayar Boolean @default(false)
   createAt DateTime @default(now())
-  Kasku Kas[]
+  Transaksi Transaksi[]
 }
 
-model Kas {
-  id Int @id @default(autoincrement())
-  nominal String
+model Transaksi {
+  id String @id @default(uuid())
+  nominal Int
   tanggal_bayar DateTime @default(now())
-  siswa_id Int
-  nama_pembayar Siswa @relation(fields: [siswa_id], references: [id])
+  siswa_id String
+  createAt DateTime @default(now())
+  status Status @default(pending)
+  verifiedAt DateTime?
+  siswa Siswa @relation(fields: [siswa_id], references: [id])
+}
+
+enum Status {
+  pending
+  waiting
+  success
 }
