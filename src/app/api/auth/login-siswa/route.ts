@@ -1,4 +1,4 @@
-
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server'
 import "dotenv/config";
 import { PrismaPg } from '@prisma/adapter-pg'
@@ -12,6 +12,7 @@ const prisma = new PrismaClient({adapter})
 export async function POST(req: NextRequest) {
     const body = await req.json()
     const {nis, password} = body;
+    const cookieStore = await cookies()
 
     try {
         if (!nis || !password) {
@@ -33,6 +34,11 @@ export async function POST(req: NextRequest) {
                 message: 'user not found. please make sure the account is correct!',
             }, {status: 400})
         }
+
+        cookieStore.set('x-id-siswa', String(user.id), {
+            httpOnly: true,
+            path: '/'
+        })
 
         return NextResponse.json({
             code: 'SUCC_LOGIN',
