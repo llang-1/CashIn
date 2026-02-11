@@ -15,7 +15,7 @@ datasource db {
 
 model Siswa {
   id Int @id @default(autoincrement())
-  nis String
+  nis String 
   password String
   status_bayar Boolean @default(false)
   createAt DateTime @default(now())
