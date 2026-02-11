@@ -22,20 +22,20 @@ export async function POST(req: NextRequest) {
             }, {status: 400})
         }
 
-        const user = await prisma.siswa.findFirst({
+        const siswa = await prisma.siswa.findFirst({
             where: {
                 nis: nis
             }
         })
 
-        if (!user) {
+        if (!siswa) {
             return NextResponse.json({
                 code: 'ERR_LOGIN',
                 message: 'user not found. please make sure the account is correct!',
             }, {status: 400})
         }
 
-        cookieStore.set('x-id-siswa', String(user.id), {
+        cookieStore.set('x-id-siswa', String(siswa.id), {
             httpOnly: true,
             path: '/'
         })
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
             code: 'SUCC_LOGIN',
             message: 'successfully logged. welcome!',
-            user
+            siswa
         }, {status: 201})
 
     } catch (error: unknown) {
