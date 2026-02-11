@@ -1,6 +1,6 @@
 import convertCRC16 from "@/lib/convertCRC";
 
-function generateQRIS(amount) {
+function generateQRIS(amount: number) {
   const baseData = ""; // supayaa bisa mendapatkan data qris dengan cara berikut. 1. upload qris kamuu ke google lens 2. lalu bisa melihat data qris kayak gini: 00020101021126670016COM.NOBUBANK.WWW0118936005030000087914021414204... dan seterusnya.
   const qrisData = baseData.slice(0, -4);
 
@@ -15,3 +15,5 @@ function generateQRIS(amount) {
 
   return resultWithCRC;
 }
+
+export default generateQRIS
