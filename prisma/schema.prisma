@@ -12,3 +12,11 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Siswa {
+  id Int @id @default(autoincrement())
+  nis String
+  password String
+  status_bayar Boolean @default(false)
+  createAt DateTime @default(now())
+}
