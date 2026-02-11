@@ -19,4 +19,13 @@ model Siswa {
   password String
   status_bayar Boolean @default(false)
   createAt DateTime @default(now())
+  Kasku Kas[]
+}
+
+model Kas {
+  id Int @id @default(autoincrement())
+  nominal String
+  tanggal_bayar DateTime @default(now())
+  siswa_id Int
+  nama_pembayar Siswa @relation(fields: [siswa_id], references: [id])
 }
