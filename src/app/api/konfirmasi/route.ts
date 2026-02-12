@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
                 id: trxId
             },
             data: {
-                status: 'waiting'
+                status: 'waiting',
+                verifiedAt: new Date()
             }
         })
 
