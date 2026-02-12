@@ -41,6 +41,8 @@ export async function POST(req: NextRequest) {
             }
         })
 
+        // (await cookies()).set('trx-id', trx.id)
+
         return NextResponse.json({
             code: 'SUCC_TRX',
             message: "successfully make a transaction, please continue the transaction!",
