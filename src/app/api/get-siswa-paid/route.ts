@@ -23,7 +23,7 @@ export async function GET() {
 
         return NextResponse.json({
             code: 'SUCC_GET',
-            message: "successfully got the success trx list!",
+            message: "successfully got the paid siswa trx list!",
             paidSiswa
         }, {status: 200})
 
