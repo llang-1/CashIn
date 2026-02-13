@@ -11,7 +11,7 @@ const prisma = new PrismaClient({adapter})
 export async function POST(req: NextRequest) {
     const body = await req.json()
     const {trxId} = body
-    const siswaId = (await cookies()).get('x-id-siswa')
+    const siswaId = (await cookies()).get('x-id-siswa')?.value
 
     try {
 
@@ -36,6 +36,15 @@ export async function POST(req: NextRequest) {
             data: {
                 status: 'success',
                 verifiedAt: new Date()
+            }
+        })
+
+        await prisma.siswa.update({
+            where: {
+                id: siswaId
+            },
+            data: {
+                status_bayar: 'paid'
             }
         })
 
