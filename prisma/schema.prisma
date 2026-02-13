@@ -17,7 +17,7 @@ model Siswa {
   id String @id @default(uuid())
   nis String 
   password String
-  status_bayar Boolean @default(false)
+  status_bayar StatusSiswa @default(unpaid)
   createAt DateTime @default(now())
   Transaksi Transaksi[]
 }
@@ -31,6 +31,11 @@ model Transaksi {
   status Status @default(pending)
   verifiedAt DateTime?
   siswa Siswa @relation(fields: [siswa_id], references: [id])
+}
+
+enum StatusSiswa {
+  paid
+  unpaid
 }
 
 enum Status {
