@@ -12,7 +12,7 @@ const prisma = new PrismaClient({adapter})
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
-    const {nis, password} = body;
+    const {nis, nama, password} = body;
     // const cookieStore = await cookies()
 
     try {
@@ -26,7 +26,8 @@ export async function POST(req: NextRequest) {
         const siswa = await prisma.siswa.create({
             data: {
                 nis,
-                password
+                nama,
+                password,
             }
         })
 

@@ -16,6 +16,7 @@ datasource db {
 model Siswa {
   id String @id @default(uuid())
   nis String 
+  nama String
   password String
   status_bayar StatusSiswa @default(unpaid)
   createAt DateTime @default(now())
