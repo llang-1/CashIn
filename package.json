@@ -9,13 +9,19 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.9",
+    "@heroui/use-theme": "^2.1.10",
     "@prisma/adapter-pg": "^7.4.1",
     "@prisma/client": "^7.4.1",
     "dotenv": "^17.3.1",
+    "framer-motion": "^12.34.3",
+    "lucide-react": "^0.575.0",
     "next": "16.1.6",
+    "next-themes": "^0.4.6",
     "pg": "^8.18.0",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "recharts": "^3.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
