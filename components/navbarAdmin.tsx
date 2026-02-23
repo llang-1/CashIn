@@ -57,8 +57,8 @@ export default function NavbarAdmin() {
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link color="foreground" href="#">
-            Customers
+          <Link color="foreground" href="/admin/verifikasi-unpaid">
+            Verifikasi Pembayaran
           </Link>
         </NavbarItem>
         <NavbarItem>

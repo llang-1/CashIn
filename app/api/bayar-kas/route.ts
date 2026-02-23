@@ -31,13 +31,20 @@ export async function POST(req: NextRequest) {
             }, {status: 400})
         }
         
+        const getNamaSiswa = await prisma.siswa.findUnique({
+            where: {
+                id: siswaId.value
+            }
+        })
+
         const qris = generateQRIS(nominal)
 
         const trx = await prisma.transaksi.create({
             data: {
                 nominal: Number(nominal),
                 siswa_id: siswaId.value,
-                status: 'pending'
+                status: 'pending',
+                nama_siswa: String(getNamaSiswa?.nama)
             }
         })
 

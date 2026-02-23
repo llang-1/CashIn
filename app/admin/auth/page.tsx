@@ -8,6 +8,7 @@ import {
   Input,
   Link,
   Button,
+  addToast
 } from "@heroui/react";
 import { useEffect, useState } from "react";
 import "dotenv/config"
@@ -34,11 +35,19 @@ const FormLoginAdmin = () => {
       e.preventDefault()
 
       if (!username || !password) {
-        return alert("masukkan username dan password")
+        return addToast({
+                title: 'Warning',
+                description: 'Harap isi semua input!',
+                color: 'warning'
+            })
       }
 
       if (username !== usernameAdmin || password !== passwordAdmin) {
-        return alert("username atau password tidak sesuai")
+        return addToast({
+                title: 'Warning',
+                description: 'Username atau password salah!',
+                color: 'warning'
+            })
       }
 
       if (username === usernameAdmin && password === passwordAdmin) {
@@ -46,15 +55,20 @@ const FormLoginAdmin = () => {
           path: '/',
         })
 
-        return alert("sukses login")
+        return addToast({
+                title: 'Berhasil login!',
+                description: 'Kamu berhasil login sebagai admin!',
+                color: 'success',
+                promise: new Promise((resolve) => setTimeout(redirect('/admin'), 3000))
+            })
       }
   }
 
   const admCookie = getCookie("key-adm")
 
   useEffect(() => {
-    if (!admCookie) {
-    redirect('/admin/auth')
+    if (admCookie) {
+    redirect('/admin')
   }
   }, [])
 
