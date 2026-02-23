@@ -43,18 +43,21 @@ export default function NavbarAdmin() {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="hidden sm:flex gap-4" justify="start">
         <NavbarBrand>
           {/* <AcmeLogo /> */}
           <p className="font-bold text-inherit">CashIn Admin</p>
         </NavbarBrand>
+      </NavbarContent>
+
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
+          <Link color="foreground" href="/admin/tambah-siswa">
+            Tambah Siswa
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link aria-current="page" color="primary" href="#">
+          <Link color="foreground" href="#">
             Customers
           </Link>
         </NavbarItem>
@@ -67,13 +70,8 @@ export default function NavbarAdmin() {
 
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-            <Button as={Link} color="danger" href="#" variant="flat">
-            Log Out
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color="danger" href="#" variant="flat">
-            Log Out
+            <Button as={Link} color="primary" href="/admin" variant="flat">
+            Beranda   
           </Button>
         </NavbarItem>
       </NavbarContent>
