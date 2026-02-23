@@ -78,7 +78,7 @@ const CardUnpaidAdmin = () => {
         return addToast({
           title: 'Berhasil!',
           color: 'success',
-          description: 'Kamu berhasil verifikasi pembayaran uang kas!'
+          description: 'Yeayyy kamu berhasil verifikasi pembayaran uang kas!'
         })
       }
 
