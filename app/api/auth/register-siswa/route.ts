@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
         }
 
         return NextResponse.json({
-            code: 'SUCC_LOGIN',
+            code: 'SUCC_REG',
             message: 'successfully registered. welcome!',
             siswa
         }, {status: 201})

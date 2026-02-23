@@ -27,6 +27,7 @@ model Transaksi {
   id String @id @default(uuid())
   nominal Int
   tanggal_bayar DateTime @default(now())
+  nama_siswa String
   siswa_id String
   createAt DateTime @default(now())
   status Status @default(pending)
