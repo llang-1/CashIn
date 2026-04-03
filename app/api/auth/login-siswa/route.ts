@@ -37,7 +37,6 @@ export async function POST(req: NextRequest) {
 
         cookieStore.set('x-id-siswa', String(siswa.id), {
             httpOnly: true,
-            path: '/'
         })
 
         return NextResponse.json({

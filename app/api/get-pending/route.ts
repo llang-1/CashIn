@@ -15,16 +15,16 @@ export async function GET() {
 
     try {
 
-        const unpaidSiswa = await prisma.siswa.findMany({
+        const pendingPayment = await prisma.transaksi.findMany({
             where: {
-                status_bayar: "unpaid"
+                status: 'pending'
             }
         })
 
         return NextResponse.json({
             code: 'SUCC_GET',
-            message: "successfully got the unpaid siswa trx list!",
-            unpaidSiswa,
+            message: "successfully got the paid siswa trx list!",
+            pendingPayment
         }, {status: 200})
 
     } catch (error) {

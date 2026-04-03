@@ -35,6 +35,23 @@ type Saldo = {
   };
 };
 
+type PendingSiswa = {
+  id: string,
+  nominal: number,
+  tanggal_bayar: string,
+  nama_siswa: string,
+  siswa_id: string,
+  createAt: string,
+  status: string,
+  verifiedAt: string | number | null
+}
+
+type PendingSiswaResponse = {
+  code: string,
+  message: string,
+  pendingPayment: PendingSiswa[]
+}
+
 type PaidSiswa = {
   id: string;
   nis: string;
@@ -81,6 +98,7 @@ export default function AdminDashboard() {
       <CardKasAdmin />
       <CardUnpaidAdmin />
       <CardPaidAdmin />
+      <CardPending />
     </>
   );
 }
@@ -281,6 +299,67 @@ const CardPaidAdmin = () => {
                   <TableCell>{item.nis}</TableCell>
                   <TableCell>{item.nama}</TableCell>
                   <TableCell>{item.status_bayar}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardBody>
+      </Card>
+    </section>
+  );
+};
+
+const CardPending = () => {
+  const [studentsPending, setStudentsPending] = useState<PendingSiswa[]>([]);
+
+  const getPending = async () => {
+    try {
+      const response = await axios.get<PendingSiswaResponse>(
+        "/api/get-pending",
+      );
+      return response.data;
+    } catch (e: unknown) {
+      if (e instanceof AxiosError) {
+        console.error(e.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    async function fetch() {
+      const data = await getPending();
+      if (data) setStudentsPending(data.pendingPayment);
+    }
+
+    fetch();
+  }, []);
+
+  return (
+    <section className="flex flex-col justify-center items-center mt-8">
+      <Card className="py-4 w-80 md:w-250">
+        <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+          <p className="text-tiny uppercase font-bold">List Siswa Pending</p>
+          <small className="text-default-500">
+            list siswa yang sudah bayar namun belum di konfirmasi
+          </small>
+        </CardHeader>
+        <CardBody className="overflow-visible py-2">
+          <Table isStriped aria-label="Example static collection table">
+            <TableHeader>
+              <TableColumn>ID TRX</TableColumn>
+              <TableColumn>NAMA</TableColumn>
+              <TableColumn>NOMINAL</TableColumn>
+              <TableColumn>STATUS</TableColumn>
+              <TableColumn>TANGGAL BAYAR</TableColumn>
+            </TableHeader>
+            <TableBody emptyContent="tidak ada pembayaran pending.">
+              {studentsPending.map((item, i) => (
+                <TableRow key={i}>
+                  <TableCell>{item.id.slice(0, 10)}...</TableCell>
+                  <TableCell>{item.nama_siswa}</TableCell>
+                  <TableCell>{item.nominal}</TableCell>
+                  <TableCell>{item.status}</TableCell>
+                  <TableCell>{new Date(item.tanggal_bayar).toLocaleString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

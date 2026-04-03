@@ -25,7 +25,7 @@ import { number } from "framer-motion";
 import { redirect, useRouter } from "next/navigation";
 import { setCookie, getCookie } from "cookies-next";
 
-type WaitingData = {
+type PendingSiswa = {
   id: string,
   nominal: number,
   tanggal_bayar: string,
@@ -33,13 +33,13 @@ type WaitingData = {
   siswa_id: string,
   createAt: string,
   status: string,
-  verifiedAt: string
+  verifiedAt: string | number | null
 }
 
-type WaitingResponse = {
+type PendingSiswaResponse = {
   code: string,
   message: string,
-  waitingTrx: WaitingData[]
+  pendingPayment: PendingSiswa[]
 }
 
 export default function VerifikasiUnpaid() {
@@ -52,12 +52,12 @@ export default function VerifikasiUnpaid() {
 }
 
 const CardUnpaidAdmin = () => {
-  const [students, setStudents] = useState<WaitingData[]>([]);
+  const [students, setStudents] = useState<PendingSiswa[]>([]);
 
   const getUnpaid = async () => {
     try {
-      const response = await axios.get<WaitingResponse>(
-        "/api/show-all",
+      const response = await axios.get<PendingSiswaResponse>(
+        "/api/get-pending",
       );
       return response.data;
     } catch (e: unknown) {
@@ -92,7 +92,7 @@ const CardUnpaidAdmin = () => {
   useEffect(() => {
     async function fetch() {
       const data = await getUnpaid();
-      if (data) setStudents(data.waitingTrx);
+      if (data) setStudents(data.pendingPayment);
     }
 
     fetch();
@@ -102,9 +102,9 @@ const CardUnpaidAdmin = () => {
     <section className="flex flex-col justify-center items-center mt-8">
       <Card className="py-4 w-80 md:w-250">
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-          <p className="text-tiny uppercase font-bold">List Siswa UnPaid</p>
+          <p className="text-tiny uppercase font-bold">List Siswa Pending</p>
           <small className="text-default-500">
-            list siswa yang belum ter-verifikasi pembayaran nya.
+            list siswa yang belum ter-verifikasi pembayaran nya, tekan verifikasi untuk menyelesaikan transaksi.
           </small>
         </CardHeader>
         <CardBody className="overflow-visible py-2">
