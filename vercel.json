@@ -1,8 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/cron",
-      "schedule": "0 0 * * 1"
+      "path": "/api/reset-tagihan",
+      "schedule": "0 17 * * 0"
     }
   ]
 }
