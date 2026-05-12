@@ -17,7 +17,7 @@ export async function GET() {
 
         const pendingPayment = await prisma.transaksi.findMany({
             where: {
-                status: 'pending'
+                status: 'waiting'
             }
         })
 

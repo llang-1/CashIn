@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
         if (!siswa) {
             return NextResponse.json({
-                code: 'ERR_LOGIN',
+                code: 'ERR_LOGIN_UNVALID',
                 message: 'user not found. please make sure the account is correct!',
             }, {status: 400})
         }

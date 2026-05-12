@@ -43,6 +43,23 @@ type PendingSiswaResponse = {
 }
 
 export default function VerifikasiUnpaid() {
+  const router = useRouter()
+  const cekSessionAdmin = async () => {
+  try {
+    const response = await axios.get('/api/cek-admin');
+  
+    console.log("Session aman");
+    
+  } catch (error) {
+    console.log("Kena tendang!");
+    router.push('/admin/auth');
+  }
+}
+
+useEffect(() => {
+  cekSessionAdmin()
+}, [])
+
     return (
         <>
             <NavbarAdmin />

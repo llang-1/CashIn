@@ -25,10 +25,11 @@ export const AcmeLogo = () => {
 
 export default function NavbarAdmin() {
   const menuItems = [
-    "Profile",
-    "Dashboard",
-    "Activity",
-  ];
+    {nama: "Tambah siswa", url: '/admin/tambah-siswa'},
+    {nama: "Verifikasi pembayaran", url: '/admin/verifikasi-trx'},
+    {nama: "Catat pengeluaran", url: '/admin/catat-pengeluaran'},
+    {nama: "Lihat pengeluaran", url: '/admin/lihat-pengeluaran'},
+  ]
 
   return (
     <Navbar isBordered>
@@ -62,8 +63,18 @@ export default function NavbarAdmin() {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
+          <Link color="foreground" href="/admin">
+            Dashboard
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="/admin/catat-pengeluaran">
+            Catat Pengeluaran
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="/admin/lihat-pengeluaran">
+            Lihat pengeluaran
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -82,10 +93,10 @@ export default function NavbarAdmin() {
             <Link
               className="w-full"
               color="foreground"
-              href="#"
+              href={item.url}
               size="lg"
             >
-              {item}
+              {item.nama}
             </Link>
           </NavbarMenuItem>
         ))}

@@ -35,6 +35,21 @@ model Transaksi {
   siswa Siswa @relation(fields: [siswa_id], references: [id])
 }
 
+model Pengeluaran {
+  id String @id @default(ulid())
+  nama String
+  nominal Int
+  deskirpsi String
+  category String
+  tangga_pengeluaran DateTime @default(now())
+}
+
+model Admin {
+  id String @id
+  nama String
+  password String
+}
+
 enum StatusSiswa {
   paid
   unpaid

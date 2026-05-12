@@ -26,13 +26,10 @@ import { redirect, useRouter } from "next/navigation";
 import { setCookie, getCookie } from "cookies-next";
 
 type Saldo = {
-  code: number;
-  message: string;
-  uangKas: {
-    _sum: {
-      nominal: number;
-    };
-  };
+  totalMasuk: number,
+  totalKeluar: number,
+  saldo: number,
+  jumlahPengeluaran: number,
 };
 
 type PendingSiswa = {
@@ -84,12 +81,22 @@ type UnpaidSiswaResponse = {
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const admCookie = getCookie("key-adm");
+  const admCookie = getCookie("admin-login");
+
+const cekSessionAdmin = async () => {
+  try {
+    const response = await axios.get('/api/cek-admin');
+  
+    console.log("Session aman");
+    
+  } catch (error) {
+    console.log("Kena tendang!");
+    router.push('/admin/auth');
+  }
+}
 
   useEffect(() => {
-    if (!admCookie) {
-      redirect("/admin/auth");
-    }
+    cekSessionAdmin()
   }, []);
 
   return (
@@ -115,7 +122,7 @@ const CardKasAdmin = () => {
 
   const getSaldo = async () => {
     try {
-      const response = await axios.get<Saldo>("/api/total-kas");
+      const response = await axios.get<Saldo>("/api/catet-pengeluaran");
       return response.data;
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -161,7 +168,7 @@ const CardKasAdmin = () => {
           <h1 className="text-4xl font-extrabold tracking-tight mt-2">
             Rp{" "}
             {saldo
-              ? saldo?.uangKas?._sum?.nominal?.toLocaleString("id-ID") || "0"
+              ? saldo.saldo.toLocaleString("id-ID") || "0"
               : "loading..."}
           </h1>
 

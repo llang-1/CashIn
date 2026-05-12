@@ -8,12 +8,14 @@ import {
   Input,
   Link,
   Button,
-  addToast
+  addToast,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
-import "dotenv/config"
+import "dotenv/config";
 import { setCookie, getCookie } from "cookies-next";
 import { redirect } from "next/navigation";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function AdminAuth() {
   return (
@@ -25,52 +27,66 @@ export default function AdminAuth() {
 }
 
 const FormLoginAdmin = () => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const router = useRouter()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const usernameAdmin = process.env.USN_ADM || "pplgBendahara"
-  const passwordAdmin = process.env.PW_ADM || "pplgMantap@#"
+  const usernameAdmin = process.env.USN_ADM || "pplgBendahara";
+  const passwordAdmin = process.env.PW_ADM || "pplgMantap@#";
 
-  const loginHandle = (e: React.FormEvent) => {
-      e.preventDefault()
+  const loginHandle = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    
+
+    try {
 
       if (!username || !password) {
         return addToast({
-                title: 'Warning',
-                description: 'Harap isi semua input!',
-                color: 'warning'
-            })
+          title: "Warning",
+          description: "Harap isi semua input!",
+          color: "warning",
+        });
       }
 
-      if (username !== usernameAdmin || password !== passwordAdmin) {
-        return addToast({
-                title: 'Warning',
-                description: 'Username atau password salah!',
-                color: 'warning'
-            })
-      }
-
-      if (username === usernameAdmin && password === passwordAdmin) {
-        setCookie("key-adm", "293hydxe892222i8w9e", {
-          path: '/',
+      const response = await axios.post("/api/auth/admin-login", {
+        nama: username,
+        password: password
+      })
+      
+      if (response.data.code === 'SUCC_LOGIN') {
+        setTimeout(() => {
+          router.push('/admin')
         })
-
         return addToast({
-                title: 'Berhasil login!',
-                description: 'Kamu berhasil login sebagai admin!',
-                color: 'success',
-                promise: new Promise((resolve) => setTimeout(redirect('/admin'), 3000))
-            })
+          title: 'Berhasil!',
+          description: "selamat datang, kamu login sebagai admin.",
+          color: "success",
+        });
+      } else if (response.data.code === 'ERR_LOGIN_404') {
+        return addToast({
+          title: "Kesalahan!",
+          description: "nama atau password tidak sesuai.",
+          color: "danger",
+        });
       }
-  }
+    } catch (error) {
+      console.error(error)
+      return addToast({
+          title: "error",
+          description: "ada kesalahan server. buka console",
+          color: "danger",
+        });
+    }
+  };
 
-  const admCookie = getCookie("key-adm")
+  const admCookie = getCookie("key-adm");
 
   useEffect(() => {
     if (admCookie) {
-    redirect('/admin')
-  }
-  }, [])
+      redirect("/admin");
+    }
+  }, []);
 
   return (
     <section className="flex justify-center items-center p-2 mt-8">

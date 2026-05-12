@@ -11,12 +11,35 @@ import {
   addToast,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
-import "dotenv/config"
+import "dotenv/config";
 import { setCookie, getCookie } from "cookies-next";
 import { redirect } from "next/navigation";
-import axios, {AxiosError} from "axios";
+import { useRouter } from "next/navigation";
+import axios, { AxiosError } from "axios";
 
 export default function AdminAuth() {
+ 
+  const router = useRouter()
+
+  const cekSessionAdmin = async () => {
+    try {
+      const response = await axios.get("/api/cek-admin");
+
+      if (response.data.code === 'SUCC') {
+      console.log("Session aman");
+
+      }
+
+    } catch (error) {
+      console.log("Kena tendang!");
+      router.push("/admin/auth");
+    }
+  };
+
+  useEffect(() => {
+    cekSessionAdmin()
+  }, [])
+
   return (
     <>
       <NavbarAdmin />
@@ -26,51 +49,41 @@ export default function AdminAuth() {
 }
 
 function TambahSiswaForm() {
-  const [nis, setNis] = useState("")
-  const [nama, setNama] = useState("")
-  const [password, setPassword] = useState("")
-
+  const [nis, setNis] = useState("");
+  const [nama, setNama] = useState("");
+  const [password, setPassword] = useState("");
 
   const addHandle = async (e: React.FormEvent) => {
-      e.preventDefault()
-    
-        if (!nis || !nama || !password) {
-            addToast({
-                title: 'Warning',
-                description: 'Harap isi semua input!',
-                color: 'warning'
-            })
-        }
+    e.preventDefault();
 
-        try {
-            const response = await axios.post("/api/auth/register-siswa", {
-                nis: nis,
-                nama: nama,
-                password: password
-            })
+    if (!nis || !nama || !password) {
+      addToast({
+        title: "Warning",
+        description: "Harap isi semua input!",
+        color: "warning",
+      });
+    }
 
-            if (response.data.code === 'SUCC_REG') {
-                addToast({
-                    title: 'Berhasil',
-                    description: 'Kamu berhasil membuat siswa baru!',
-                    color: 'success'
-                })
-            }
-        } catch (error: unknown) {
-            if (error instanceof AxiosError) {
-                console.error(error.message)
-            }
-        }
+    try {
+      const response = await axios.post("/api/auth/register-siswa", {
+        nis: nis,
+        nama: nama,
+        password: password,
+      });
 
-  }
-
-  const admCookie = getCookie("key-adm")
-
-  useEffect(() => {
-    if (!admCookie) {
-    redirect('/admin/auth')
-  }
-  }, [])
+      if (response.data.code === "SUCC_REG") {
+        addToast({
+          title: "Berhasil",
+          description: "Kamu berhasil membuat siswa baru!",
+          color: "success",
+        });
+      }
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.error(error.message);
+      }
+    }
+  };
 
   return (
     <section className="flex justify-center items-center p-2 mt-8">

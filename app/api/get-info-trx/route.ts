@@ -8,26 +8,22 @@ const connectionString = `${process.env.DATABASE_URL}`
 const adapter = new PrismaPg({ connectionString })
 const prisma = new PrismaClient({adapter})
 
-export async function GET() {
-    // const body = await req.json()
-    // const {trxId} = body
-    // const siswaId = (await cookies()).get('x-id-siswa')
+export async function GET(request: NextRequest) {
+    const { searchParams } = new URL(request.url);
+  const trxId = searchParams.get('trxId');
 
     try {
 
-        const uangKas = await prisma.transaksi.aggregate({
-            _sum: {
-                nominal: true
-            },
+        const getTrx = await prisma.transaksi.findFirst({
             where: {
-                status: 'success'
+                id: String(trxId)
             }
         })
 
         return NextResponse.json({
             code: 'SUCC_GETWAITING',
-            message: "successfully got the total!",
-            uangKas
+            message: "successfully got the trx info!",
+            getTrx
         }, {status: 200})
 
     } catch (error) {
